@@ -17,7 +17,7 @@
 /**
  * Capability definitions for the jirbis2 module.
  *
- * @package   mod_jirbis2
+ * @package   mod_jirbis
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,8 +42,8 @@ $capabilities = array(
                 'captype' => 'read',
                 'contextlevel' => CONTEXT_MODULE,
                 'archetypes' => array(
+                        'guest' => CAP_ALLOW,
                         'user' => CAP_ALLOW,
-                        'guest' => CAP_ALLOW
                 )
         ),
 );

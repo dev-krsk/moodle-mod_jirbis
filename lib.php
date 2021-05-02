@@ -20,12 +20,19 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
+require_once('locallib.php');
 
-$plugin->component = 'mod_jirbis';
-$plugin->version = 2021032000;
-$plugin->requires = 2019111800;
-$plugin->supported = [38, 39];   // Available as of Moodle 3.9.0 or later.
-$plugin->incompatible = 37;      // Available as of Moodle 3.9.0 or later.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = 'v1.0-beta';
+/**
+ * Add page instance.
+ * @param stdClass $data
+ * @param mod_jirbis_mod_form $mform
+ * @return int new page instance id
+ */
+function jirbis_add_instance($data, $mform = null) {
+    global $CFG, $DB;
+
+    jirbis_dump($data, $mform);
+
+    return -1;
+}

@@ -15,27 +15,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library of functions and constants for module jirbis2
+ * This file contains the forms to create and edit an instance of this module
  *
  * @package   mod_jirbis
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once('../../config.php');
+
+defined('MOODLE_INTERNAL') || die;
+
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
 require_once('locallib.php');
 
-$id = required_param('id', PARAM_INT); // course id
+/**
+ * JIRBIS2 settings form.
+ *
+ * @package   mod_jirbis
+ * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class mod_jirbis_mod_form extends moodleform_mod {
+    function definition() {
+        global $PAGE;
 
-$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
+        $PAGE->force_settings_menu();
 
-require_course_login($course, true);
+        $mform = $this->_form;
 
-$PAGE->set_url('/mod/page/index.php', array('id' => $course->id));
-$PAGE->set_title($course->shortname);
-$PAGE->set_heading($course->fullname);
+        $config = get_config('jirbis');
 
-echo $OUTPUT->header();
+        $mform->addElement('header', 'general', get_string('general', 'form'));
 
-echo jirbis_load();
+        //-------------------------------------------------------
+        $this->standard_coursemodule_elements();
+        //-------------------------------------------------------
+        $this->add_action_buttons();
+    }
+}
 
-echo $OUTPUT->footer();

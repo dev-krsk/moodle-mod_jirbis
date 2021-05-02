@@ -15,26 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'jirbis2', language 'en'
+ * Privacy Subsystem implementation for mod_jirbis.
  *
- * @package   mod_jirbis2
+ * @package   mod_jirbis
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_jirbis\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'J-IRBIS 2';
-$string['modulename_help'] = 'The J-IRBIS 2 module enables integration with the J-IRBIS2 library information system.';
-$string['modulename_link'] = 'mod/jirbis2/view';
-$string['privacy:metadata'] = 'The Label resource plugin does not store any personal data.';
-$string['pluginadministration'] = 'J-IRBIS 2 administration';
-$string['pluginname'] = 'J-IRBIS 2';
+/**
+ * The mod_jirbis module does not store any data.
+ *
+ * @package   mod_jirbis
+ * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider
+{
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason(): string
+    {
+        return 'privacy:metadata';
+    }
+}
 
-$string['config:server'] = 'Config server';
-$string['config:server:url'] = 'URL';
-$string['config:server:url_desc'] = 'Server URL JIRBIS2';
-$string['config:server:login'] = 'Login';
-$string['config:server:login_desc'] = 'Login for IRBIS TCP/IP server';
-$string['config:server:pw'] = 'Password';
-$string['config:server:pw_desc'] = 'Password for IRBIS TCP/IP server';

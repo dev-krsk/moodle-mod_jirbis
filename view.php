@@ -15,17 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * JIRBIS module version information
+ *
  * @package   mod_jirbis
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once(readlink('../../config.php'));
+require_once('locallib.php');
 
-defined('MOODLE_INTERNAL') || die();
+$id = required_param('id', PARAM_INT);
 
-$plugin->component = 'mod_jirbis';
-$plugin->version = 2021032000;
-$plugin->requires = 2019111800;
-$plugin->supported = [38, 39];   // Available as of Moodle 3.9.0 or later.
-$plugin->incompatible = 37;      // Available as of Moodle 3.9.0 or later.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = 'v1.0-beta';
+$cm = get_coursemodule_from_id('jirbis', $id, 0, false, MUST_EXIST);
+
+$course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+
+require_login($course, false, $cm);
+$context = context_module::instance($cm->id);
+require_capability('mod/jirbis:view', $context);
+
+$PAGE->set_url('/mod/page/view.php', array('id' => $cm->id));
+
+echo $OUTPUT->header();
+
+echo jirbis_url_provider();
+
+echo $OUTPUT->footer();

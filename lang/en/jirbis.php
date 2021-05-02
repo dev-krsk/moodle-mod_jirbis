@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Strings for component 'jirbis2', language 'en'
+ *
  * @package   mod_jirbis
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -22,10 +24,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_jirbis';
-$plugin->version = 2021032000;
-$plugin->requires = 2019111800;
-$plugin->supported = [38, 39];   // Available as of Moodle 3.9.0 or later.
-$plugin->incompatible = 37;      // Available as of Moodle 3.9.0 or later.
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = 'v1.0-beta';
+$string['modulename'] = 'J-IRBIS 2';
+$string['modulename_help'] = 'The J-IRBIS 2 module enables integration with the J-IRBIS2 library information system.';
+$string['modulename_link'] = 'mod/jirbis/view';
+$string['privacy:metadata'] = 'The Label resource plugin does not store any personal data.';
+$string['pluginadministration'] = 'J-IRBIS 2 administration';
+$string['pluginname'] = 'J-IRBIS 2';
+
+$string['config:server'] = 'Config server';
+$string['config:server:url'] = 'URL';
+$string['config:server:url_desc'] = 'Server URL JIRBIS2';
+$string['config:server:login'] = 'Login';
+$string['config:server:login_desc'] = 'Login for IRBIS TCP/IP server';
+$string['config:server:pw'] = 'Password';
+$string['config:server:pw_desc'] = 'Password for IRBIS TCP/IP server';
