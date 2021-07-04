@@ -25,7 +25,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
-require_once('locallib.php');
 
 /**
  * JIRBIS2 settings form.
@@ -36,7 +35,7 @@ require_once('locallib.php');
  */
 class mod_jirbis_mod_form extends moodleform_mod {
     function definition() {
-        global $PAGE;
+        global $PAGE, $COURSE;
 
         $PAGE->force_settings_menu();
 
@@ -44,7 +43,19 @@ class mod_jirbis_mod_form extends moodleform_mod {
 
         $config = get_config('jirbis');
 
+        $PAGE->requires->js_call_amd('mod_jirbis/modal_search_handle', 'init', [$COURSE->id]);
+
         $mform->addElement('header', 'general', get_string('general', 'form'));
+
+        $mform->addElement('button', 'modal_search_show', 'Открыть модалку');
+
+        $mform->addElement('text', 'content_name', 'Выбранный ресурс', ['style' => 'width:100%', 'readonly' => true]);
+        $mform->setType('content_name', PARAM_TEXT);
+        $mform->addRule('content_name', 'Чтобы заполнить данное поле, необходимо выбрать ресурс в модальном окне', 'required', null, 'client');
+
+        $mform->addElement('text', 'content_url', 'URL', ['style' => 'width:100%', 'readonly' => true]);
+        $mform->setType('content_url', PARAM_TEXT);
+        $mform->addRule('content_url', 'Чтобы заполнить данное поле, необходимо выбрать ресурс в модальном окне', 'required', null, 'client');
 
         //-------------------------------------------------------
         $this->standard_coursemodule_elements();

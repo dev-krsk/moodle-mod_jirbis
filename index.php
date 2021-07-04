@@ -22,20 +22,22 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once('../../config.php');
-require_once('locallib.php');
 
 $id = required_param('id', PARAM_INT); // course id
+$query = optional_param('query', 'доррер', PARAM_TEXT);
 
 $course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
 
-require_course_login($course, true);
+require_course_login($course);
 
-$PAGE->set_url('/mod/page/index.php', array('id' => $course->id));
+$PAGE->set_url('/mod/jirbis/index.php', array('id' => $course->id));
 $PAGE->set_title($course->shortname);
 $PAGE->set_heading($course->fullname);
 
 echo $OUTPUT->header();
 
-echo jirbis_load();
+$api = new \mod_jirbis\services\api();
+
+$api->load($query);
 
 echo $OUTPUT->footer();

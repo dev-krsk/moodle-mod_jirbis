@@ -21,7 +21,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
-require_once('locallib.php');
 
 /**
  * Add page instance.
@@ -32,7 +31,7 @@ require_once('locallib.php');
 function jirbis_add_instance($data, $mform = null) {
     global $CFG, $DB;
 
-    jirbis_dump($data, $mform);
+    throw new moodle_exception('d', null, null, null, print_r($data,1));
 
     return -1;
 }
