@@ -46,7 +46,7 @@ if (!$course = $DB->get_record('course', array('id' => $courseid))) {
 require_login($course);
 $context = context_course::instance($course->id);
 
-if (!has_capability('mod/jirbis2:addinstance', $context)) {
+if (!has_capability('mod/jirbis:addinstance', $context)) {
     http_response_code(404);
     echo json_encode([
         'error' => 'access denied'
