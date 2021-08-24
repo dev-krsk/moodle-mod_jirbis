@@ -23,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_jirbis';
-$plugin->version = 2021032000;
+$plugin->version = 2021082300;
 $plugin->requires = 2019111800;
 $plugin->supported = [38, 39];   // Available as of Moodle 3.9.0 or later.
 $plugin->incompatible = 39;      // Available as of Moodle 3.9.0 or later.
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity = MATURITY_BETA;
 $plugin->release = 'v1.0-beta';
