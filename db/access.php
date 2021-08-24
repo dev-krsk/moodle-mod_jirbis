@@ -25,7 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-
         'mod/jirbis:addinstance' => array(
                 'riskbitmask' => RISK_XSS,
 
@@ -36,14 +35,5 @@ $capabilities = array(
                         'manager' => CAP_ALLOW
                 ),
                 'clonepermissionsfrom' => 'moodle/course:manageactivities'
-        ),
-
-        'mod/jirbis:view' => array(
-                'captype' => 'read',
-                'contextlevel' => CONTEXT_MODULE,
-                'archetypes' => array(
-                        'guest' => CAP_ALLOW,
-                        'user' => CAP_ALLOW,
-                )
         ),
 );

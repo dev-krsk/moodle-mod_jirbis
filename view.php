@@ -21,23 +21,35 @@
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(readlink('../../config.php'));
-require_once('locallib.php');
-
+require_once('../../config.php');
 $id = required_param('id', PARAM_INT);
 
-$cm = get_coursemodule_from_id('jirbis', $id, 0, false, MUST_EXIST);
-
-$course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+$cm             = get_coursemodule_from_id('jirbis', $id, 0, false, MUST_EXIST);
+$course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+$moduleinstance = $DB->get_record('jirbis', array('id' => $cm->instance), '*', MUST_EXIST);
 
 require_login($course, false, $cm);
-$context = context_module::instance($cm->id);
-require_capability('mod/jirbis:view', $context);
+
+$modulecontext = context_module::instance($cm->id);
+
+$event = \mod_jirbis\event\course_module_viewed::create(array(
+    'objectid' => $moduleinstance->id,
+    'context' => $modulecontext
+));
+$event->add_record_snapshot('course', $course);
+$event->add_record_snapshot('jirbis', $moduleinstance);
+$event->trigger();
+
 
 $PAGE->set_url('/mod/page/view.php', array('id' => $cm->id));
+$PAGE->set_title(format_string($moduleinstance->name));
+$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_context($modulecontext);
 
 echo $OUTPUT->header();
 
-echo jirbis_url_provider();
+echo '<p>' . $moduleinstance->content_name . '</p>';
+echo '<p><a href="' . $moduleinstance->content_url . '" class="btn btn-primary">Скачать</a></p>';
+echo '<p><embed src="' . $moduleinstance->content_url . '" width="100%" height="800px" /></p>';
 
 echo $OUTPUT->footer();

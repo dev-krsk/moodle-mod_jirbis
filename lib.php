@@ -24,14 +24,57 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * Add page instance.
- * @param stdClass $data
+ * @param stdClass $moduleinstance
  * @param mod_jirbis_mod_form $mform
  * @return int new page instance id
  */
-function jirbis_add_instance($data, $mform = null) {
+function jirbis_add_instance($moduleinstance, $mform = null) {
     global $CFG, $DB;
 
-    throw new moodle_exception('d', null, null, null, print_r($data,1));
+    $moduleinstance->timecreated = time();
+    $moduleinstance->name = mb_substr($moduleinstance->content_name, 0, 255);
 
-    return -1;
+    $id = $DB->insert_record('jirbis', $moduleinstance);
+
+    return $id;
 }
+
+/**
+ * Updates an instance of the mod_jirbis in the database.
+ *
+ * Given an object containing all the necessary data (defined in mod_form.php),
+ * this function will update an existing instance with new data.
+ *
+ * @param object $moduleinstance An object from the form in mod_form.php.
+ * @param mod_jirbis_mod_form $mform The form.
+ * @return bool True if successful, false otherwise.
+ */
+function jirbis_update_instance($moduleinstance, $mform = null) {
+    global $DB;
+
+    $moduleinstance->timemodified = time();
+    $moduleinstance->name = mb_substr($moduleinstance->content_name, 0, 255);
+    $moduleinstance->id = $moduleinstance->instance;
+
+    return $DB->update_record('jirbis', $moduleinstance);
+}
+
+/**
+ * Removes an instance of the mod_jirbis from the database.
+ *
+ * @param int $id Id of the module instance.
+ * @return bool True if successful, false on failure.
+ */
+function jirbis_delete_instance($id) {
+    global $DB;
+
+    $exists = $DB->get_record('jirbis', array('id' => $id));
+    if (!$exists) {
+        return false;
+    }
+
+    $DB->delete_records('jirbis', array('id' => $id));
+
+    return true;
+}
+
