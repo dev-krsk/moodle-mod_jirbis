@@ -85,7 +85,7 @@ class api
             );
         }
 
-        if ($page > ceil($cnt->Result / $limit)) {
+        if ($cnt->Result != 0 && $page > ceil($cnt->Result / $limit)) {
             throw new moodle_exception('error:not_found_page', 'mod_jirbis');
         }
 
