@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-        'mod/jirbis2:addinstance' => array(
+        'mod/jirbis:addinstance' => array(
                 'riskbitmask' => RISK_XSS,
 
                 'captype' => 'write',
@@ -38,7 +38,7 @@ $capabilities = array(
                 'clonepermissionsfrom' => 'moodle/course:manageactivities'
         ),
 
-        'mod/jirbis2:view' => array(
+        'mod/jirbis:view' => array(
                 'captype' => 'read',
                 'contextlevel' => CONTEXT_MODULE,
                 'archetypes' => array(

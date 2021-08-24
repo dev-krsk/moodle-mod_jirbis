@@ -2,7 +2,7 @@
     {{$title}}Поиск ресурса{{/title}}
     {{$body}}
         <style>
-            .loading::before {
+            .mod_jirbis-loading::before {
                 content: " ";
                 top: 0;
                 left: 0;
@@ -13,7 +13,7 @@
                 position: absolute;
             }
 
-            .loading::after {
+            .mod_jirbis-loading::after {
                 content: " ";
                 color: #006cb5;
                 font-size: 20px;
@@ -32,6 +32,15 @@
                 left: 0;
                 right: 0;
                 z-index: 100;
+            }
+
+            .selectPageSource:empty,
+            .selectPageSource:empty:hover,
+            .selectPageSource:empty:active {
+                cursor: not-allowed;
+                opacity: .6;
+                outline: none;
+                pointer-events: none;
             }
 
             @-webkit-keyframes load4 {
@@ -100,13 +109,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputModalSearch" class="col-sm-2 col-form-label">Поиск автора</label>
+                    <label for="inputModalSearch" class="col-sm-2 col-form-label">Поиск по автору</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputModalSearch" placeholder="Введите текст">
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" data-action="search">{{#str}} search {{/str}}</button>
             </form>
+            <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Страница</label>
+                <div class="col-sm-2"><select class="form-control selectPageSource"></select></div>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -121,6 +134,10 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Страница</label>
+                <div class="col-sm-2"><select class="form-control selectPageSource"></select></div>
+            </div>
         </div>
     {{/body}}
 {{/ core/modal }}
