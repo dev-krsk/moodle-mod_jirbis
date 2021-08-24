@@ -135,7 +135,16 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                     } else {
                         let result = data.data;
                         for (let i = 0; i < result.length; i++) {
-                            let $tr = $(`<tr><td class="name">${result[i].name}</td><td class="source">${result[i].url}</td><td><button name="add_book">Добавить</button></td></tr>`);
+                            let $tr = $('<tr></tr>');
+
+                            $tr.append(`<td class="name">${result[i].name}</td>`);
+                            $tr.append(`<td class="source">${result[i].url}</td>`);
+                            if (result[i].url.indexOf('http') === 0) {
+                                $tr.append(`<td><button name="add_book">Добавить</button></td>`);
+                            } else {
+                                $tr.append(`<td>Файл отсутствует на сервере библиотеки</td>`);
+                            }
+
                             body.find(SELECTORS.CONTENT_BLOCK).append($tr);
                         }
 
