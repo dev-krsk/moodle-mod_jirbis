@@ -21,6 +21,9 @@
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use mod_jirbis\services\helper;
+
 require_once('../../config.php');
 $id = required_param('id', PARAM_INT);
 
@@ -49,7 +52,11 @@ $PAGE->set_context($modulecontext);
 echo $OUTPUT->header();
 
 echo '<p>' . $moduleinstance->content_name . '</p>';
-echo '<p><a href="' . $moduleinstance->content_url . '" class="btn btn-primary">Скачать</a></p>';
-echo '<p><embed src="' . $moduleinstance->content_url . '" width="100%" height="800px" /></p>';
+if(helper::remote_file_exists($moduleinstance->content_url)) {
+    echo '<p><a href="' . $moduleinstance->content_url . '" class="btn btn-primary">Скачать</a></p>';
+    echo '<p><embed src="' . $moduleinstance->content_url . '" width="100%" height="800px" /></p>';
+} else {
+    echo '<p class="alert alert-warning">Файл отсутвует на сервере библиотеки</p>';
+}
 
 echo $OUTPUT->footer();
