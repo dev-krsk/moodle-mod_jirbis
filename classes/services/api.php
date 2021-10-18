@@ -7,6 +7,11 @@ use moodle_exception;
 
 class api
 {
+    const QUERY_TITLE = 'title';
+    const QUERY_AUTHOR = 'author';
+    const QUERY_KEY = 'key';
+    const QUERY_YEAR = 'year';
+
     protected $client;
 
     protected $profile;
@@ -48,10 +53,38 @@ class api
         //return $this->client->FindRecords($base, $query, '', $start, $limit);
     }
 
+    public function generateQuery(array $params = []): string
+    {
+        $query = '((<.>V=FT<.>+<.>V=EXT<.>))';
+
+        while (\count($params) > 0) {
+            $value = mb_strtoupper(end($params));
+            $key = key($params);
+            unset($params[$key]);
+
+            switch ($key) {
+                case self::QUERY_AUTHOR:
+                    $query .= "*(<.>A=$value$<.>)";
+                    break;
+                case self::QUERY_TITLE:
+                    $query .= "*(<.>T=$value$<.>)";
+                    break;
+                case self::QUERY_KEY:
+                    $query .= "*(<.>K=$value$<.>)";
+                    break;
+                case self::QUERY_YEAR:
+                    $query .= "*(<.>G=$value$<.>)";
+                    break;
+            }
+        }
+
+        return $query;
+    }
+
     public function load(string $query, string $base = 'IBIS', int $page = 1, int $limit = 10)
     {
         $query = mb_strtoupper($query);
-        $query = "(<.>A=$query$<.>)*((<.>V=FT<.>+<.>V=EXT<.>))";
+        $query = "(<.>A=$query$<.>)*";
 
         $cnt = $this->count($query, $base);
 

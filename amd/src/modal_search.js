@@ -5,7 +5,10 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             FORM_CONTENT_NAME: "[name='content_name']",
             FORM_CONTENT_URL: "[name='content_url']",
             SOURCE_SELECT: '#selectModalSource',
-            SEARCH_INPUT: '#inputModalSearch',
+            SEARCH_AUTHOR: '#inputModalAuthor',
+            SEARCH_TITLE: '#inputModalTitle',
+            SEARCH_KEY: '#inputModalKey',
+            SEARCH_YEAR: '#inputModalYear',
             SEARCH_BUTTON: '[data-action="search"]',
             CONTENT_BLOCK: "[data-action='content_block']",
             MODAL_CONTENT: ".modal-content",
@@ -109,9 +112,20 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                 limit: ModalSearch.prototype.limit,
                 page: ModalSearch.prototype.page,
                 source: body.find(SELECTORS.SOURCE_SELECT).val(),
-                query: body.find(SELECTORS.SEARCH_INPUT).val().trim(),
+                author: body.find(SELECTORS.SEARCH_AUTHOR).val().trim(),
+                title: body.find(SELECTORS.SEARCH_TITLE).val().trim(),
+                key: body.find(SELECTORS.SEARCH_KEY).val().trim(),
+                year: body.find(SELECTORS.SEARCH_YEAR).val().trim(),
             };
 
+            // if ((!parameters.author || parameters.author.length === 0)
+            //     &&(!parameters.title || parameters.title.length === 0)
+            //     &&(!parameters.key || parameters.key.length === 0)
+            //     &&(!parameters.year || parameters.year.length === 0)
+            // ) {
+            //     Notification.alert('Ошибка', 'Поле источник не может быть пустым');
+            //     return;
+            // }
             if (!parameters.source || parameters.source.length === 0) {
                 Notification.alert('Ошибка', 'Поле источник не может быть пустым');
                 return;

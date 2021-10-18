@@ -27,7 +27,12 @@ use mod_jirbis\services\api;
 require_once('../../../config.php');
 
 $courseid = required_param('id', PARAM_INT); // course id
-$query = optional_param('query', 'доррер', PARAM_TEXT);
+
+$author = optional_param(api::QUERY_AUTHOR, null, PARAM_TEXT);
+$title = optional_param(api::QUERY_TITLE, null, PARAM_TEXT);
+$key = optional_param(api::QUERY_KEY, null, PARAM_TEXT);
+$year = optional_param(api::QUERY_YEAR, null, PARAM_TEXT);
+
 $base = optional_param('base', 'IBIS', PARAM_TEXT);
 $page = optional_param('page', 1, PARAM_INT);
 $limit = optional_param('limit', 10, PARAM_INT);
@@ -55,7 +60,16 @@ if (!has_capability('mod/jirbis:addinstance', $context)) {
 }
 
 try {
-    $data = (new api())->load($query, $base, $page, $limit);
+    $api = new api();
+
+    $query = $api->generateQuery([
+        api::QUERY_AUTHOR => $author,
+        api::QUERY_KEY => $key,
+        api::QUERY_TITLE => $title,
+        api::QUERY_YEAR => $year,
+    ]);
+
+    $data = $api->load($query, $base, $page, $limit);
 } catch (moodle_exception $e) {
     http_response_code(500);
 
