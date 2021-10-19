@@ -127,20 +127,16 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                 year: body.find(SELECTORS.SEARCH_YEAR).val().trim(),
             };
 
-            // if ((!parameters.author || parameters.author.length === 0)
-            //     &&(!parameters.title || parameters.title.length === 0)
-            //     &&(!parameters.key || parameters.key.length === 0)
-            //     &&(!parameters.year || parameters.year.length === 0)
-            // ) {
-            //     Notification.alert('Ошибка', 'Поле источник не может быть пустым');
-            //     return;
-            // }
-            if (!parameters.source || parameters.source.length === 0) {
-                Notification.alert('Ошибка', 'Поле источник не может быть пустым');
+            if ((!parameters.author || parameters.author.length === 0)
+                &&(!parameters.title || parameters.title.length === 0)
+                &&(!parameters.key || parameters.key.length === 0)
+                &&(!parameters.year || parameters.year.length === 0)
+            ) {
+                Notification.alert('Ошибка', 'Одно из полей поиска должно быть заполнено');
                 return;
             }
-            if (!parameters.query || parameters.query.length === 0) {
-                Notification.alert('Ошибка', 'Поле поиска не может быть пустым');
+            if (!parameters.source || parameters.source.length === 0) {
+                Notification.alert('Ошибка', 'Поле источник не может быть пустым');
                 return;
             }
 

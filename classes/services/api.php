@@ -64,16 +64,16 @@ class api
 
             switch ($key) {
                 case self::QUERY_AUTHOR:
-                    $query .= "*(<.>A=$value$<.>)";
+                    $query = "(<.>A=$value$<.>)*$query";
                     break;
                 case self::QUERY_TITLE:
-                    $query .= "*(<.>T=$value$<.>)";
+                    $query = "(<.>T=$value$<.>)*$query";
                     break;
                 case self::QUERY_KEY:
-                    $query .= "*(<.>K=$value$<.>)";
+                    $query = "(<.>K=$value$<.>)*$query";
                     break;
                 case self::QUERY_YEAR:
-                    $query .= "*(<.>G=$value$<.>)";
+                    $query = "(<.>G=$value$<.>)*$query";
                     break;
             }
         }
@@ -83,9 +83,6 @@ class api
 
     public function load(string $query, string $base = 'IBIS', int $page = 1, int $limit = 10)
     {
-        $query = mb_strtoupper($query);
-        $query = "(<.>A=$query$<.>)*";
-
         $cnt = $this->count($query, $base);
 
         $start = ($page - 1) * $limit + 1;
