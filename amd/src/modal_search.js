@@ -32,8 +32,17 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             if (!this.getBody().find(SELECTORS.SOURCE_SELECT).length) {
                 Notification.exception({message: 'No select source'});
             }
-            if (!this.getBody().find(SELECTORS.SEARCH_INPUT).length) {
-                Notification.exception({message: 'No input search box'});
+            if (!this.getBody().find(SELECTORS.SEARCH_AUTHOR).length) {
+                Notification.exception({message: 'No author search box'});
+            }
+            if (!this.getBody().find(SELECTORS.SEARCH_TITLE).length) {
+                Notification.exception({message: 'No title search box'});
+            }
+            if (!this.getBody().find(SELECTORS.SEARCH_KEY).length) {
+                Notification.exception({message: 'No key search box'});
+            }
+            if (!this.getBody().find(SELECTORS.SEARCH_YEAR).length) {
+                Notification.exception({message: 'No year search box'});
             }
         };
 
