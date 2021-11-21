@@ -151,7 +151,7 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                         head += '<th>URL</th>';
                     }
                     head += '<th></th>';
-                    body.find(SELECTORS.HEAD_BLOCK).find('tr').append(head);
+                    body.find(SELECTORS.HEAD_BLOCK).find('tr').html(head);
 
                     if (data.data.length === 0) {
                         body.find(SELECTORS.CONTENT_BLOCK).html('<tr><td colspan="3">Не найдено</td></tr>');
