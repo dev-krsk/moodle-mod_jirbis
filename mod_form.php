@@ -43,7 +43,7 @@ class mod_jirbis_mod_form extends moodleform_mod {
 
         $config = get_config('jirbis');
 
-        $PAGE->requires->js_call_amd('mod_jirbis/modal_search_handle', 'init', [$COURSE->id]);
+        $PAGE->requires->js_call_amd('mod_jirbis/modal_search_handle', 'init', [$COURSE->id, get_config('jirbis', 'debug')]);
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
 

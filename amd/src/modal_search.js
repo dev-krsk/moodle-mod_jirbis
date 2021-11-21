@@ -10,12 +10,13 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             SEARCH_KEY: '#inputModalKey',
             SEARCH_YEAR: '#inputModalYear',
             SEARCH_BUTTON: '[data-action="search"]',
-            CONTENT_BLOCK: "[data-action='content_block']",
+            HEAD_BLOCK: "[data-table='head_block']",
+            CONTENT_BLOCK: "[data-table='content_block']",
             MODAL_CONTENT: ".modal-content",
             PAGE_SELECT: ".selectPageSource",
             ADD_BOOK: "[name='add_book']",
             BOOK_NAME: "td.name",
-            BOOK_SOURCE: "td.source",
+            DATA_SOURCE: "source",
         };
 
         var CLASS = {
@@ -50,6 +51,7 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
         ModalSearch.prototype = Object.create(Modal.prototype);
         ModalSearch.prototype.constructor = ModalSearch;
         ModalSearch.prototype.course = undefined;
+        ModalSearch.prototype.debug = false;
         ModalSearch.prototype.page = 1;
         ModalSearch.prototype.limit = 10;
 
@@ -63,9 +65,6 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             Modal.prototype.registerEventListeners.call(this);
 
             this.getModal().on(CustomEvents.events.activate, SELECTORS.SEARCH_BUTTON, function (e, data) {
-                // Add your logic for when the cancel button is clicked.
-                console.log(e, data);
-
                 let body = this.getBody();
 
                 ModalSearch.prototype.getSource(body, e, data);
@@ -73,9 +72,6 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             }.bind(this));
 
             this.getModal().on('change', SELECTORS.PAGE_SELECT, function (e, data) {
-                // Add your logic for when the cancel button is clicked.
-                console.log(e, data);
-
                 let body = this.getBody();
                 ModalSearch.prototype.setPage(e.currentTarget.value);
 
@@ -84,11 +80,8 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             }.bind(this));
 
             this.getModal().on(CustomEvents.events.activate, SELECTORS.ADD_BOOK, function (e, data) {
-                // Add your logic for when the cancel button is clicked.
-                console.log(e, data);
-
                 let name = $(e.target).closest('tr').find(SELECTORS.BOOK_NAME).html();
-                let source = $(e.target).closest('tr').find(SELECTORS.BOOK_SOURCE).html();
+                let source = $(e.target).closest('tr').data(SELECTORS.DATA_SOURCE);
 
                 if (source.indexOf('http://library3knew/') === 0) {
                     source = source.replace('http://library3knew/', 'http://biblioteka.sibsau.ru/');
@@ -103,6 +96,9 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
 
         ModalSearch.prototype.setCourse = function (id) {
             ModalSearch.prototype.course = id;
+        }
+        ModalSearch.prototype.setDebug = function (debug) {
+            ModalSearch.prototype.debug = parseInt(debug);
         }
         ModalSearch.prototype.setPage = function (id) {
             ModalSearch.prototype.page = id;
@@ -128,9 +124,9 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             };
 
             if ((!parameters.author || parameters.author.length === 0)
-                &&(!parameters.title || parameters.title.length === 0)
-                &&(!parameters.key || parameters.key.length === 0)
-                &&(!parameters.year || parameters.year.length === 0)
+                && (!parameters.title || parameters.title.length === 0)
+                && (!parameters.key || parameters.key.length === 0)
+                && (!parameters.year || parameters.year.length === 0)
             ) {
                 Notification.alert('Ошибка', 'Одно из полей поиска должно быть заполнено');
                 return;
@@ -143,12 +139,20 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
             $.ajax({
                 type: "POST",
                 url: "/mod/jirbis/api/index.php?" + $.param(parameters),
-                beforeSend: function() {
+                beforeSend: function () {
                     body.find(SELECTORS.CONTENT_BLOCK).empty();
                     body.find(SELECTORS.PAGE_SELECT).empty();
                     body.closest(SELECTORS.MODAL_CONTENT).addClass(CLASS.LOADING);
                 },
                 success: function (data) {
+                    let head = '';
+                    head += '<th>Наименование</th>';
+                    if (ModalSearch.prototype.debug) {
+                        head += '<th>URL</th>';
+                    }
+                    head += '<th></th>';
+                    body.find(SELECTORS.HEAD_BLOCK).find('tr').append(head);
+
                     if (data.data.length === 0) {
                         body.find(SELECTORS.CONTENT_BLOCK).html('<tr><td colspan="3">Не найдено</td></tr>');
                     } else {
@@ -156,9 +160,15 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                         for (let i = 0; i < result.length; i++) {
                             let $tr = $('<tr></tr>');
 
+                            $tr.data(SELECTORS.DATA_SOURCE, result[i].url);
+
                             $tr.append(`<td class="name">${result[i].name}</td>`);
-                            $tr.append(`<td class="source">${result[i].url}</td>`);
-                            if (result[i].url.indexOf('http') === 0) {
+
+                            if (ModalSearch.prototype.debug) {
+                                $tr.append(`<td class="source">${result[i].url}</td>`);
+                            }
+
+                            if (result[i].url.indexOf('http://biblioteka.sibsau.ru/') === 0) {
                                 $tr.append(`<td><button name="add_book">Добавить</button></td>`);
                             } else {
                                 $tr.append(`<td>Файл отсутствует на сервере библиотеки</td>`);
@@ -168,7 +178,7 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                         }
 
                         for (let i = 0; i < data.max_page; i++) {
-                            body.find(SELECTORS.PAGE_SELECT).append($( '<option value="' + (i+1) + '">' + (i+1) + '</option>'));
+                            body.find(SELECTORS.PAGE_SELECT).append($('<option value="' + (i + 1) + '">' + (i + 1) + '</option>'));
                         }
 
                         body.find(SELECTORS.PAGE_SELECT).val(ModalSearch.prototype.page);
@@ -177,7 +187,7 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                 error: function (jqXHR) {
                     Notification.exception(jqXHR);
                 },
-                complete: function() {
+                complete: function () {
                     body.closest(SELECTORS.MODAL_CONTENT).removeClass(CLASS.LOADING);
                 }
             });

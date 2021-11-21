@@ -8,23 +8,22 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Cache definitions for the jirbis2 module.
+ *
  * @package   mod_jirbis
  * @copyright 2021, Yuriy Yurinskiy <moodle@krsk.dev>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_jirbis';
-$plugin->version = 2021112100;
-$plugin->requires = 2018120305;
-$plugin->supported = [38, 39];   // Available as of Moodle 3.9.0 or later.
-$plugin->maturity = MATURITY_BETA;
-$plugin->release = 'v1.1.0-beta';
+$definitions = [
+    'cnt_result' => [
+        'mode' => cache_store::MODE_APPLICATION,
+        'simpledata' => true,
+    ]
+];

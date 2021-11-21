@@ -62,7 +62,7 @@ if (!has_capability('mod/jirbis:addinstance', $context)) {
 try {
     $api = new api();
 
-    $query = $api->generateQuery([
+    $query = api::generateQuery([
         api::QUERY_AUTHOR => $author,
         api::QUERY_KEY => $key,
         api::QUERY_TITLE => $title,

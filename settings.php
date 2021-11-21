@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_jirbis\services\api;
+
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
@@ -52,5 +54,25 @@ if ($ADMIN->fulltree) {
             get_string('config:server:pw', 'mod_jirbis'),
             get_string('config:server:pw_desc', 'mod_jirbis'),
             '1'
+    ));
+    $settings->add(new admin_setting_heading(
+        'jirbis/other_settings',
+        get_string('config:other', 'mod_jirbis'),
+        ''
+    ));
+
+    $settings->add(new admin_setting_configtext(
+            'jirbis/cache_exp',
+            get_string('config:other:cache_exp', 'mod_jirbis'),
+            get_string('config:other:cache_exp_desc', 'mod_jirbis'),
+            api::CACHE_EXP,
+            PARAM_INT
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+            'jirbis/debug',
+            get_string('config:other:debug', 'mod_jirbis'),
+            get_string('config:other:debug_desc', 'mod_jirbis'),
+            0
     ));
 }
