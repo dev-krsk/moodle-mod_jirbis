@@ -156,7 +156,12 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                     if (data.data.length === 0) {
                         body.find(SELECTORS.CONTENT_BLOCK).html('<tr><td colspan="3">Не найдено</td></tr>');
                     } else {
-                        let result = data.data;
+                        let result = data.data.map((book) => {
+                            if (book.url.indexOf('http://library3knew/') === 0)
+                                book.url = book.url.replace('http://library3knew/', 'http://biblioteka.sibsau.ru/');
+
+                            return book;
+                        });
                         for (let i = 0; i < result.length; i++) {
                             let $tr = $('<tr></tr>');
 
