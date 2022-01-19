@@ -47,9 +47,9 @@ class mod_jirbis_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        $mform->addElement('button', 'modal_search_show', 'Открыть модалку');
+        $mform->addElement('button', 'modal_search_show', 'Поиск ресурса');
 
-        $mform->addElement('text', 'content_name', 'Выбранный ресурс', ['style' => 'width:100%', 'readonly' => true]);
+        $mform->addElement('text', 'content_name', 'Выбранный ресурс', ['style' => 'width:100%']);
         $mform->setType('content_name', PARAM_TEXT);
         $mform->addRule('content_name', 'Чтобы заполнить данное поле, необходимо выбрать ресурс в модальном окне', 'required', null, 'client');
 
