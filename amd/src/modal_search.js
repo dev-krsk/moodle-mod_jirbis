@@ -31,19 +31,19 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
         var ModalSearch = function (root) {
             Modal.call(this, root);
             if (!this.getBody().find(SELECTORS.SOURCE_SELECT).length) {
-                Notification.exception({message: 'No select source'});
+                Notification.exception({name: "Ошибка", message: 'No select source'});
             }
             if (!this.getBody().find(SELECTORS.SEARCH_AUTHOR).length) {
-                Notification.exception({message: 'No author search box'});
+                Notification.exception({name: "Ошибка", message: 'No author search box'});
             }
             if (!this.getBody().find(SELECTORS.SEARCH_TITLE).length) {
-                Notification.exception({message: 'No title search box'});
+                Notification.exception({name: "Ошибка", message: 'No title search box'});
             }
             if (!this.getBody().find(SELECTORS.SEARCH_KEY).length) {
-                Notification.exception({message: 'No key search box'});
+                Notification.exception({name: "Ошибка", message: 'No key search box'});
             }
             if (!this.getBody().find(SELECTORS.SEARCH_YEAR).length) {
-                Notification.exception({message: 'No year search box'});
+                Notification.exception({name: "Ошибка", message: 'No year search box'});
             }
         };
 
@@ -109,7 +109,7 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
 
         ModalSearch.prototype.getSource = function (body, e, data) {
             if (undefined === ModalSearch.prototype.course) {
-                Notification.exception({message: 'Не передан идентификатор курса'});
+                Notification.exception({name: "Ошибка", message: 'Не передан идентификатор курса'});
             }
 
             let parameters = {
@@ -185,7 +185,13 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                     }
                 },
                 error: function (jqXHR) {
-                    Notification.exception(jqXHR);
+                    const exception = {name: "Ошибка", message:"Неизвестная ошибка"}
+
+                    if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.error) {
+                      exception.message = jqXHR.responseJSON.error;
+                    }
+
+                    Notification.exception(exception);
                 },
                 complete: function () {
                     body.closest(SELECTORS.MODAL_CONTENT).removeClass(CLASS.LOADING);

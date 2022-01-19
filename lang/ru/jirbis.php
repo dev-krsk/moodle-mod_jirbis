@@ -43,3 +43,8 @@ $string['config:other:cache_exp'] = 'Время жизни кеша';
 $string['config:other:cache_exp_desc'] = 'Врямя жизни кеша для данных с сервера ИРБИС';
 $string['config:other:debug'] = 'Режим отладки';
 $string['config:other:debug_desc'] = 'Режим отладки модальнойц формы';
+
+$string['error:not_found'] = 'Информации по вашему запросу не найдено.';
+$string['error:not_found_page'] = 'Вы обращаетесь к несуществующей странице.';
+$string['error:error_request_to_server'] = 'Ошибка при выполнении запроса. Возможно, неправильный ответ от сервера, или отсутствие связи с сервером.';
+$string['error:error_request_to_server_other'] = 'Ошибка при выполнении запроса.';

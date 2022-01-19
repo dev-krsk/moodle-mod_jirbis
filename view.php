@@ -53,10 +53,10 @@ echo $OUTPUT->header();
 
 echo '<p>' . $moduleinstance->content_name . '</p>';
 if(helper::remote_file_exists($moduleinstance->content_url)) {
-    echo '<p><a href="' . $moduleinstance->content_url . '" class="btn btn-primary">Скачать</a></p>';
+    echo '<p><a href="' . $moduleinstance->content_url . '" class="btn btn-primary" target="_blank">Открыть</a></p>';
     echo '<p><embed src="' . $moduleinstance->content_url . '" width="100%" height="800px" /></p>';
 } else {
-    echo '<p class="alert alert-warning">Файл отсутвует на сервере библиотеки</p>';
+    echo '<p class="alert alert-warning">Файл отсутствует на сервере библиотеки</p>';
 }
 
 echo $OUTPUT->footer();

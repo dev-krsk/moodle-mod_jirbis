@@ -183,6 +183,10 @@ class api
             $this->setCache($query, $response->Cnt);
         }
 
+        if ($response->Cnt == 0) {
+            throw new moodle_exception('error:not_found', 'mod_jirbis');
+        }
+
         if ($start > $response->Cnt) {
             throw new moodle_exception('error:not_found_page', 'mod_jirbis');
         }
