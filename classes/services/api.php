@@ -115,6 +115,17 @@ class api
             );
         }
 
+        // Перехват ошибки недоступности библиотеки
+        if (!empty($cnt->Error) && mb_stripos($cnt->Error['data'], '503 Service Unavailable') !== false) {
+            throw new moodle_exception(
+                'error:error_request_to_server_503',
+                'mod_jirbis',
+                null,
+                null,
+                print_r($cnt, 1)
+            );
+        }
+
         // Поскольку выполнение запросов происходит не сразу, обработка ошибок должна быть здесь.
         if (!empty($result->Error)) {
             throw new moodle_exception(
@@ -146,6 +157,17 @@ class api
         if (!$this->client->CommitBatch()) {
             throw new moodle_exception(
                 'error:error_request_to_server',
+                'mod_jirbis',
+                null,
+                null,
+                print_r($cnt, 1)
+            );
+        }
+
+        // Перехват ошибки недоступности библиотеки
+        if (!empty($cnt->Error) && mb_stripos($cnt->Error['data'], '503 Service Unavailable') !== false) {
+            throw new moodle_exception(
+                'error:error_request_to_server_503',
                 'mod_jirbis',
                 null,
                 null,
