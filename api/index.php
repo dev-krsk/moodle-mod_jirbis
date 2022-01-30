@@ -33,7 +33,7 @@ $title = optional_param(api::QUERY_TITLE, null, PARAM_TEXT);
 $key = optional_param(api::QUERY_KEY, null, PARAM_TEXT);
 $year = optional_param(api::QUERY_YEAR, null, PARAM_TEXT);
 
-$base = optional_param('base', 'IBIS', PARAM_TEXT);
+$source = optional_param('source', 'IBIS', PARAM_TEXT);
 $page = optional_param('page', 1, PARAM_INT);
 $limit = optional_param('limit', 10, PARAM_INT);
 
@@ -69,7 +69,7 @@ try {
         api::QUERY_YEAR => $year,
     ]);
 
-    $data = $api->load($query, $base, $page, $limit);
+    $data = $api->load($query, $source, $page, $limit);
 } catch (moodle_exception $e) {
     http_response_code(500);
 
