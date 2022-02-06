@@ -230,7 +230,7 @@ class api
 
             $data[] = [
                 'name' => $formating['name']['value'],
-                'url' => profile::get_info($content, profile::JIRBIS_URL),
+                'url' => profile::get_info($content, profile::JIRBIS_URL, 'formatUrl'),
             ];
 
         }

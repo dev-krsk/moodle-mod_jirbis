@@ -173,10 +173,10 @@ define(['jquery', 'core/notification', 'core/custom_interaction_events', 'core/m
                                 $tr.append(`<td class="source">${result[i].url}</td>`);
                             }
 
-                            if (result[i].url.indexOf('http://biblioteka.sibsau.ru/') === 0) {
+                            if (result[i].url.indexOf('http') === 0) {
                                 $tr.append(`<td><button name="add_book">Добавить</button></td>`);
                             } else {
-                                $tr.append(`<td>Файл отсутствует на сервере библиотеки</td>`);
+                                $tr.append(`<td>Файл отсутствует на сервере библиотеки или удаленный доступ к файлу не доступен</td>`);
                             }
 
                             body.find(SELECTORS.CONTENT_BLOCK).append($tr);

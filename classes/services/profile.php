@@ -27,7 +27,15 @@ class profile
     public static function get_info(array $record, int $key, string $callback = 'format', bool $ifOneThenReturnOne = true)
     {
         if (isset($record[$key])) {
-            $result = self::array_format($record[$key], $callback);
+            $filtered = $record[$key];
+
+            if ($key === self::JIRBIS_URL) {
+                $filtered = array_filter($filtered, static function($item) {
+                    return stripos($item, '^I') !== false;
+                });
+            }
+
+            $result = self::array_format($filtered, $callback);
 
             if ($ifOneThenReturnOne && count($result) == 1) {
                 return $result[array_key_first($result)];
@@ -69,6 +77,23 @@ class profile
         $value = str_replace('^G', ' ; ', $value);
         $value = str_replace('^I', '', $value);
         $value = str_replace('^V', '', $value);
+
+        return $value;
+    }
+
+    public static function formatUrl(?string $value): ?string
+    {
+        if (is_null($value)) {
+            return null;
+        }
+
+        if (stripos($value, '^I') !== false) {
+            $value = substr($value,stripos($value, '^I') + 2);
+        }
+
+        if (stripos($value, '^') !== false) {
+            $value = substr($value, 0, stripos($value, '^'));
+        }
 
         return $value;
     }
